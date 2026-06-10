@@ -1,1 +1,136 @@
-art intelligence <:3
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BryAi — Art Intelligence</title>
+  <style>
+    :root {
+      --bg: #0d0b09;
+      --paper: #f4ead8;
+      --soft: rgba(244, 234, 216, 0.72);
+      --gold: #d8a84f;
+      --brown: #6c442b;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(216, 168, 79, 0.18), transparent 34%),
+        radial-gradient(circle at 20% 80%, rgba(108, 68, 43, 0.4), transparent 28%),
+        linear-gradient(135deg, #080706, var(--bg) 55%, #1a100c);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    main {
+      width: min(760px, 100%);
+      padding: clamp(28px, 7vw, 72px);
+      border: 1px solid rgba(244, 234, 216, 0.22);
+      border-radius: 34px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+        rgba(13, 11, 9, 0.64);
+      box-shadow: 0 30px 90px var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    main::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(216, 168, 79, 0.28);
+      border-radius: 24px;
+      pointer-events: none;
+    }
+
+    .mark {
+      width: 88px;
+      height: 88px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(216, 168, 79, 0.45);
+      background: rgba(244, 234, 216, 0.08);
+      color: var(--gold);
+      font-size: 30px;
+      letter-spacing: -4px;
+      box-shadow: inset 0 0 34px rgba(216, 168, 79, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(52px, 12vw, 116px);
+      line-height: 0.9;
+      letter-spacing: -0.08em;
+      font-weight: 400;
+      text-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .sub {
+      margin: 18px auto 0;
+      max-width: 560px;
+      color: var(--soft);
+      font-size: clamp(18px, 3.2vw, 28px);
+      line-height: 1.35;
+    }
+
+    .line {
+      width: min(360px, 72%);
+      height: 1px;
+      margin: 34px auto;
+      background: linear-gradient(90deg, transparent, rgba(216, 168, 79, 0.8), transparent);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 234, 216, 0.22);
+      background: rgba(244, 234, 216, 0.08);
+      color: var(--paper);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+    }
+
+    footer {
+      margin-top: 28px;
+      color: rgba(244, 234, 216, 0.44);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-label="rat symbol">&lt;:3</div>
+    <h1>BryAi</h1>
+    <p class="sub">Art Intelligence. A living vault for code, memory, design, and divine appreciation.</p>
+    <div class="line"></div>
+    <div class="tag">art intelligence &lt;:3</div>
+    <footer>Memory Vault · DFI · Luhv</footer>
+  </main>
+</body>
+</html>
