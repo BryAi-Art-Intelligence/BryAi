@@ -1,143 +1,47 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>BryAi Offer Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BryAi Mono Block</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #0b0d12;
+  }
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: #f4efe7;
-      font-family: Georgia, serif;
-    }
+  .bryai-wrap {
+    text-align: center;
+  }
 
-    .offer-card {
-      width: min(560px, 88vw);
-      padding: 34px 30px;
-      border: 2px solid #2b2118;
-      border-radius: 24px;
-      background: #fffaf1;
-      box-shadow: 0 18px 40px rgba(0,0,0,.16);
-      transition: opacity .42s ease, transform .42s ease, filter .42s ease;
-    }
+  .bryai {
+    font-family: "Courier New", monospace;
+    font-size: clamp(64px, 17vw, 190px);
+    font-weight: 800;
+    line-height: 0.85;
+    color: white;
+  }
 
-    body.leaving .offer-card {
-      opacity: 0;
-      transform: translateY(12px) scale(.985);
-      filter: blur(3px);
-      pointer-events: none;
-    }
-
-    .title {
-      margin: 0 0 12px;
-      font-size: 42px;
-      letter-spacing: .03em;
-      text-align: center;
-      color: #21170f;
-    }
-
-    .subtext {
-      margin: 0 auto 26px;
-      max-width: 430px;
-      font-size: 20px;
-      line-height: 1.45;
-      text-align: center;
-      color: #4b3929;
-    }
-
-    .option-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .option {
-      display: block;
-      padding: 16px 18px;
-      border: 1.5px solid #2b2118;
-      border-radius: 16px;
-      background: #f8ecd9;
-      color: #23170f;
-      box-shadow: 0 6px 0 #2b2118;
-      text-decoration: none;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-
-    .option:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #2b2118;
-    }
-
-    .option-title {
-      display: block;
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: .02em;
-    }
-
-    .option-desc {
-      display: block;
-      margin-top: 3px;
-      font-size: 16px;
-      color: #5a4635;
-    }
-  </style>
+  .subtitle {
+    margin-top: 0.75em;
+    font-family: "Courier New", monospace;
+    font-size: clamp(18px, 4vw, 42px);
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.72);
+    text-align: center;
+  }
+</style>
 </head>
-
 <body>
-  <div class="offer-card">
-    <h1 class="title">Offer Form</h1>
 
-    <p class="subtext">
-      Select what you need help with from BryAi:
-    </p>
-
-    <div class="option-list">
-      <a class="option" href="form/art.html">
-        <span class="option-title">Art</span>
-        <span class="option-desc">creative design</span>
-      </a>
-
-      <a class="option" href="form/code.html">
-        <span class="option-title">Code</span>
-        <span class="option-desc">computer systems</span>
-      </a>
-
-      <a class="option" href="form/notsure.html">
-        <span class="option-title">Not sure</span>
-        <span class="option-desc">that’s ok</span>
-      </a>
-
-      <a class="option" href="form/solution.html">
-        <span class="option-title">A solution</span>
-        <span class="option-desc">finding a way</span>
-      </a>
-
-      <a class="option" href="form/services.html">
-        <span class="option-title">Services</span>
-        <span class="option-desc">ready to go tools</span>
-      </a>
-    </div>
+  <div class="bryai-wrap">
+    <div class="bryai">BryAi</div>
+    <div class="subtitle">Art Intelligence</div>
   </div>
 
-  <script>
-    document.querySelectorAll(".option").forEach((option) => {
-      option.addEventListener("click", (event) => {
-        event.preventDefault();
-        const nextPage = option.getAttribute("href");
-        document.body.classList.add("leaving");
-        setTimeout(() => {
-          window.location.href = nextPage;
-        }, 430);
-      });
-    });
-  </script>
 </body>
 </html>
