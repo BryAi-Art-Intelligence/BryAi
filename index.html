@@ -50,6 +50,8 @@
   .bryai-input {
     margin-top: 0.7em;
     width: min(72vw, 520px);
+    min-height: 2.55em;
+    max-height: 7.2em;
     box-sizing: border-box;
     border: 2px solid rgba(255, 255, 255, 0.72);
     border-radius: 0;
@@ -58,8 +60,13 @@
     font-family: "Courier New", monospace;
     font-size: clamp(16px, 3.5vw, 32px);
     font-weight: 800;
+    line-height: 1.25;
     color: white;
     outline: none;
+    resize: none;
+    overflow-y: hidden;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
   }
 
   .bryai-input::placeholder {
@@ -76,9 +83,20 @@
       <div>1: Type what’s on your mind</div>
       <div>2: Send it to BryAi and wait</div>
       <div>3: Return through custom link</div>
-      <input class="bryai-input" type="text">
+      <textarea class="bryai-input" rows="1"></textarea>
     </div>
   </div>
 
+<script>
+  const bryaiInput = document.querySelector('.bryai-input');
+
+  function growBryAiInput() {
+    bryaiInput.style.height = 'auto';
+    bryaiInput.style.height = bryaiInput.scrollHeight + 'px';
+  }
+
+  bryaiInput.addEventListener('input', growBryAiInput);
+  growBryAiInput();
+</script>
 </body>
 </html>
