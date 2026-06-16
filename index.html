@@ -47,9 +47,15 @@
     color: rgba(255, 255, 255, 0.72);
   }
 
-  .bryai-input {
+  .input-stage {
+    position: relative;
     margin-top: 0.7em;
     width: min(72vw, 520px);
+  }
+
+  .bryai-input,
+  .bryai-measure {
+    width: 100%;
     min-height: 2.55em;
     max-height: 7.2em;
     box-sizing: border-box;
@@ -62,15 +68,60 @@
     font-weight: 800;
     line-height: 1.25;
     color: white;
-    outline: none;
-    resize: none;
-    overflow-y: hidden;
     white-space: pre-wrap;
     overflow-wrap: break-word;
   }
 
+  .bryai-input {
+    display: block;
+    outline: none;
+    resize: none;
+    overflow-y: hidden;
+  }
+
   .bryai-input::placeholder {
     color: rgba(255, 255, 255, 0.32);
+  }
+
+  .bryai-measure {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .send-dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    background: #0b0d12;
+    color: white;
+    font-family: "Courier New", monospace;
+    font-size: clamp(13px, 2.8vw, 22px);
+    font-weight: 800;
+    line-height: 1;
+    padding: 0.35em 0.48em;
+    cursor: pointer;
+    opacity: 0;
+    transform: translate(0.35em, -50%) scale(0.92);
+    pointer-events: none;
+    transition:
+      opacity 420ms ease,
+      transform 420ms ease,
+      border-color 420ms ease;
+  }
+
+  .send-dot.is-visible {
+    opacity: 1;
+    transform: translate(0.55em, -50%) scale(1);
+    pointer-events: auto;
+  }
+
+  .send-dot:hover,
+  .send-dot:focus-visible {
+    border-color: white;
   }
 </style>
 </head>
@@ -83,19 +134,69 @@
       <div>1: Type what’s on your mind</div>
       <div>2: Send it to BryAi and wait</div>
       <div>3: Return through custom link</div>
-      <textarea class="bryai-input" rows="1"></textarea>
+      <div class="input-stage">
+        <textarea class="bryai-input" rows="1"></textarea>
+        <div class="bryai-measure" aria-hidden="true"></div>
+        <button class="send-dot" type="button">SEND</button>
+      </div>
     </div>
   </div>
 
 <script>
   const bryaiInput = document.querySelector('.bryai-input');
+  const bryaiMeasure = document.querySelector('.bryai-measure');
+  const sendDot = document.querySelector('.send-dot');
+  let idleTimer;
+
+  function escapeText(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n$/g, '\n ')
+      .replace(/\n/g, '<br>');
+  }
 
   function growBryAiInput() {
     bryaiInput.style.height = 'auto';
     bryaiInput.style.height = bryaiInput.scrollHeight + 'px';
+    bryaiMeasure.style.height = bryaiInput.style.height;
   }
 
-  bryaiInput.addEventListener('input', growBryAiInput);
+  function placeSendDot() {
+    const text = bryaiInput.value;
+
+    if (!text.trim()) {
+      sendDot.classList.remove('is-visible');
+      return;
+    }
+
+    bryaiMeasure.innerHTML = escapeText(text) + '<span class="end-mark">&#8203;</span>';
+    const endMark = bryaiMeasure.querySelector('.end-mark');
+    const stageBox = document.querySelector('.input-stage').getBoundingClientRect();
+    const markBox = endMark.getBoundingClientRect();
+
+    sendDot.style.left = markBox.left - stageBox.left + 'px';
+    sendDot.style.top = markBox.top - stageBox.top + markBox.height / 2 + 'px';
+    sendDot.classList.add('is-visible');
+  }
+
+  function hideThenWait() {
+    sendDot.classList.remove('is-visible');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(placeSendDot, 700);
+  }
+
+  bryaiInput.addEventListener('input', () => {
+    growBryAiInput();
+    hideThenWait();
+  });
+
+  window.addEventListener('resize', () => {
+    growBryAiInput();
+    placeSendDot();
+  });
+
   growBryAiInput();
 </script>
 </body>
