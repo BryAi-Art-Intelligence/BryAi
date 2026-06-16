@@ -54,6 +54,8 @@
     width: min(72vw, 520px);
     transform-origin: center;
     overflow: visible;
+    --pull-x: 0px;
+    --pull-y: 0px;
   }
 
   .input-stage::before,
@@ -86,7 +88,8 @@
   }
 
   .bryai-input,
-  .bryai-measure {
+  .bryai-measure,
+  .pull-text {
     width: 100%;
     min-height: 2.55em;
     max-height: 7.2em;
@@ -116,12 +119,23 @@
     color: rgba(255, 255, 255, 0.32);
   }
 
-  .bryai-measure {
+  .bryai-measure,
+  .pull-text {
     position: absolute;
     left: 0;
     top: 0;
-    visibility: hidden;
     pointer-events: none;
+  }
+
+  .bryai-measure {
+    visibility: hidden;
+  }
+
+  .pull-text {
+    border-color: transparent;
+    opacity: 0;
+    z-index: 3;
+    transform-origin: center center;
   }
 
   .send-dot {
@@ -142,6 +156,7 @@
     transform: translate(0.35em, -50%) scale(0.92);
     pointer-events: none;
     transition: opacity 420ms ease, transform 420ms ease, border-color 420ms ease;
+    z-index: 4;
   }
 
   .send-dot.is-visible {
@@ -227,16 +242,20 @@
   }
 
   .input-stage.is-delivering {
-    animation: note-away 1450ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation: note-away 1450ms cubic-bezier(0.2, 0.8, 0.2, 1) 360ms forwards;
     z-index: 10;
   }
 
+  .input-stage.is-delivering .pull-text {
+    animation: text-pull 420ms cubic-bezier(0.12, 0.92, 0.16, 1) forwards;
+  }
+
   .input-stage.is-delivering::before {
-    animation: note-body 1450ms ease forwards;
+    animation: note-body 1450ms ease 360ms forwards;
   }
 
   .input-stage.is-delivering::after {
-    animation: note-flap 1450ms ease forwards;
+    animation: note-flap 1450ms ease 360ms forwards;
   }
 
   .input-stage.is-delivering .bryai-input {
@@ -249,6 +268,24 @@
     opacity: 0;
     transform: translate(0.55em, -50%) scale(0.72);
     pointer-events: none;
+  }
+
+  @keyframes text-pull {
+    0% {
+      opacity: 1;
+      filter: blur(0);
+      transform: translate(0, 0) scale(1);
+    }
+    58% {
+      opacity: 0.72;
+      filter: blur(1px);
+      transform: translate(calc(var(--pull-x) * 0.72), calc(var(--pull-y) * 0.72)) scale(0.22);
+    }
+    100% {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translate(var(--pull-x), var(--pull-y)) scale(0.015);
+    }
   }
 
   @keyframes mailbox-appear {
@@ -302,6 +339,7 @@
       <div class="input-stage">
         <textarea class="bryai-input" rows="1"></textarea>
         <div class="bryai-measure" aria-hidden="true"></div>
+        <div class="pull-text" aria-hidden="true"></div>
         <button class="send-dot" type="button">SEND</button>
       </div>
     </div>
@@ -316,6 +354,7 @@
   const inputStage = document.querySelector('.input-stage');
   const bryaiInput = document.querySelector('.bryai-input');
   const bryaiMeasure = document.querySelector('.bryai-measure');
+  const pullText = document.querySelector('.pull-text');
   const sendDot = document.querySelector('.send-dot');
   const mailbox = document.querySelector('.mailbox');
   let idleTimer;
@@ -329,10 +368,16 @@
       .replace(/\n/g, '<br>');
   }
 
+  function syncPullText() {
+    pullText.innerHTML = escapeText(bryaiInput.value);
+    pullText.style.height = bryaiInput.style.height;
+  }
+
   function growBryAiInput() {
     bryaiInput.style.height = 'auto';
     bryaiInput.style.height = bryaiInput.scrollHeight + 'px';
     bryaiMeasure.style.height = bryaiInput.style.height;
+    syncPullText();
   }
 
   function placeSendDot() {
@@ -353,6 +398,18 @@
     sendDot.classList.add('is-visible');
   }
 
+  function setPullTarget() {
+    const stageBox = inputStage.getBoundingClientRect();
+    const buttonBox = sendDot.getBoundingClientRect();
+    const textCenterX = stageBox.width / 2;
+    const textCenterY = stageBox.height / 2;
+    const buttonCenterX = buttonBox.left - stageBox.left + buttonBox.width / 2;
+    const buttonCenterY = buttonBox.top - stageBox.top + buttonBox.height / 2;
+
+    inputStage.style.setProperty('--pull-x', buttonCenterX - textCenterX + 'px');
+    inputStage.style.setProperty('--pull-y', buttonCenterY - textCenterY + 'px');
+  }
+
   function hideThenWait() {
     sendDot.classList.remove('is-visible');
     clearTimeout(idleTimer);
@@ -363,6 +420,8 @@
     if (!bryaiInput.value.trim() || inputStage.classList.contains('is-delivering')) return;
 
     clearTimeout(idleTimer);
+    syncPullText();
+    setPullTarget();
     sendDot.classList.remove('is-visible');
     bryaiInput.blur();
     mailbox.classList.remove('is-open');
@@ -372,10 +431,11 @@
 
     setTimeout(() => {
       bryaiInput.value = '';
+      pullText.innerHTML = '';
       inputStage.classList.remove('is-delivering');
       mailbox.classList.remove('is-open');
       growBryAiInput();
-    }, 1700);
+    }, 2100);
   }
 
   bryaiInput.addEventListener('input', () => {
