@@ -3,14 +3,20 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BryAi Mono Block</title>
+
 <style>
   body {
     margin: 0;
     min-height: 100vh;
+    background: #0b0d12;
+    color: white;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100vh;
     display: grid;
     place-items: center;
-    background: #0b0d12;
-    overflow: hidden;
   }
 
   .bryai-wrap {
@@ -270,17 +276,36 @@
     pointer-events: none;
   }
 
+  /* THREE EMBEDDED FILES */
+
+  .iframe-area {
+    width: min(92vw, 900px);
+    margin: 0 auto 80px;
+    display: grid;
+    gap: 18px;
+  }
+
+  .site-frame {
+    width: 100%;
+    height: 320px;
+    border: 0;
+    background: transparent;
+    display: block;
+  }
+
   @keyframes text-pull {
     0% {
       opacity: 1;
       filter: blur(0);
       transform: translate(0, 0) scale(1);
     }
+
     58% {
       opacity: 0.72;
       filter: blur(1px);
       transform: translate(calc(var(--pull-x) * 0.72), calc(var(--pull-y) * 0.72)) scale(0.22);
     }
+
     100% {
       opacity: 0;
       filter: blur(6px);
@@ -320,35 +345,91 @@
   }
 
   @keyframes note-away {
-    0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-    42% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-    78% { transform: translate(56vw, -34vh) rotate(10deg) scale(0.34); opacity: 1; }
-    100% { transform: translate(60vw, -36vh) rotate(10deg) scale(0.08); opacity: 0; }
+    0% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+
+    42% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+
+    78% {
+      transform: translate(56vw, -34vh) rotate(10deg) scale(0.34);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translate(60vw, -36vh) rotate(10deg) scale(0.08);
+      opacity: 0;
+    }
   }
 </style>
 </head>
+
 <body>
 
-  <div class="bryai-wrap">
-    <div class="bryai">BryAi</div>
-    <div class="subtitle">Art Intelligence</div>
-    <div class="number-lines">
-      <div>1: Type what’s on your mind</div>
-      <div>2: Send it to BryAi and wait</div>
-      <div>3: Return through custom link</div>
-      <div class="input-stage">
-        <textarea class="bryai-input" rows="1"></textarea>
-        <div class="bryai-measure" aria-hidden="true"></div>
-        <div class="pull-text" aria-hidden="true"></div>
-        <button class="send-dot" type="button">SEND</button>
+  <section class="hero">
+
+    <div class="bryai-wrap">
+
+      <div class="bryai">BryAi</div>
+
+      <div class="subtitle">
+        Art Intelligence
       </div>
+
+      <div class="number-lines">
+
+        <div>1: Type what’s on your mind</div>
+        <div>2: Send it to BryAi and wait</div>
+        <div>3: Return through custom link</div>
+
+        <div class="input-stage">
+          <textarea class="bryai-input" rows="1"></textarea>
+          <div class="bryai-measure" aria-hidden="true"></div>
+          <div class="pull-text" aria-hidden="true"></div>
+          <button class="send-dot" type="button">SEND</button>
+        </div>
+
+      </div>
+
     </div>
-  </div>
+
+  </section>
+
+
+  <!-- ALL THREE HTML FILES -->
+
+  <section class="iframe-area">
+
+    <iframe
+      class="site-frame"
+      src="w.html"
+      title="BryAi W">
+    </iframe>
+
+    <iframe
+      class="site-frame"
+      src="p.html"
+      title="BryAi P">
+    </iframe>
+
+    <iframe
+      class="site-frame"
+      src="policy.html"
+      title="BryAi Policy">
+    </iframe>
+
+  </section>
+
 
   <div class="mailbox" aria-hidden="true">
     <div class="mailbox-slot"></div>
     <div class="mailbox-flag"></div>
   </div>
+
 
 <script>
   const inputStage = document.querySelector('.input-stage');
@@ -357,6 +438,7 @@
   const pullText = document.querySelector('.pull-text');
   const sendDot = document.querySelector('.send-dot');
   const mailbox = document.querySelector('.mailbox');
+
   let idleTimer;
 
   function escapeText(text) {
@@ -388,52 +470,87 @@
       return;
     }
 
-    bryaiMeasure.innerHTML = escapeText(text) + '<span class="end-mark">&#8203;</span>';
+    bryaiMeasure.innerHTML =
+      escapeText(text) + '<span class="end-mark">&#8203;</span>';
+
     const endMark = bryaiMeasure.querySelector('.end-mark');
     const stageBox = inputStage.getBoundingClientRect();
     const markBox = endMark.getBoundingClientRect();
 
-    sendDot.style.left = markBox.left - stageBox.left + 'px';
-    sendDot.style.top = markBox.top - stageBox.top + markBox.height / 2 + 'px';
+    sendDot.style.left =
+      markBox.left - stageBox.left + 'px';
+
+    sendDot.style.top =
+      markBox.top - stageBox.top + markBox.height / 2 + 'px';
+
     sendDot.classList.add('is-visible');
   }
 
   function setPullTarget() {
     const stageBox = inputStage.getBoundingClientRect();
     const buttonBox = sendDot.getBoundingClientRect();
+
     const textCenterX = stageBox.width / 2;
     const textCenterY = stageBox.height / 2;
-    const buttonCenterX = buttonBox.left - stageBox.left + buttonBox.width / 2;
-    const buttonCenterY = buttonBox.top - stageBox.top + buttonBox.height / 2;
 
-    inputStage.style.setProperty('--pull-x', buttonCenterX - textCenterX + 'px');
-    inputStage.style.setProperty('--pull-y', buttonCenterY - textCenterY + 'px');
+    const buttonCenterX =
+      buttonBox.left - stageBox.left + buttonBox.width / 2;
+
+    const buttonCenterY =
+      buttonBox.top - stageBox.top + buttonBox.height / 2;
+
+    inputStage.style.setProperty(
+      '--pull-x',
+      buttonCenterX - textCenterX + 'px'
+    );
+
+    inputStage.style.setProperty(
+      '--pull-y',
+      buttonCenterY - textCenterY + 'px'
+    );
   }
 
   function hideThenWait() {
     sendDot.classList.remove('is-visible');
+
     clearTimeout(idleTimer);
-    idleTimer = setTimeout(placeSendDot, 700);
+
+    idleTimer = setTimeout(
+      placeSendDot,
+      700
+    );
   }
 
   function deliverNote() {
-    if (!bryaiInput.value.trim() || inputStage.classList.contains('is-delivering')) return;
+    if (
+      !bryaiInput.value.trim() ||
+      inputStage.classList.contains('is-delivering')
+    ) return;
 
     clearTimeout(idleTimer);
+
     syncPullText();
     setPullTarget();
+
     sendDot.classList.remove('is-visible');
+
     bryaiInput.blur();
+
     mailbox.classList.remove('is-open');
+
     void mailbox.offsetWidth;
+
     mailbox.classList.add('is-open');
+
     inputStage.classList.add('is-delivering');
 
     setTimeout(() => {
       bryaiInput.value = '';
       pullText.innerHTML = '';
+
       inputStage.classList.remove('is-delivering');
       mailbox.classList.remove('is-open');
+
       growBryAiInput();
     }, 2100);
   }
@@ -443,7 +560,10 @@
     hideThenWait();
   });
 
-  sendDot.addEventListener('click', deliverNote);
+  sendDot.addEventListener(
+    'click',
+    deliverNote
+  );
 
   window.addEventListener('resize', () => {
     growBryAiInput();
@@ -452,5 +572,6 @@
 
   growBryAiInput();
 </script>
+
 </body>
 </html>
