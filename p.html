@@ -1,0 +1,101 @@
+<button class="values-btn" onclick="toggleValues()" type="button">
+  <span class="line line-1">BryAi’s Personal</span>
+  <span class="line line-2">Beliefs &amp; Values</span>
+</button>
+
+<div class="values-panel" id="valuesPanel">
+
+  <p>
+    <strong>A written statement from BryAi:</strong>
+  </p>
+
+  <p>
+    If I believe the art may negatively affect another person, I will not make it.
+  </p>
+
+  <p>
+    If I have reasonable doubt about what may result from the art, I will not make it.
+  </p>
+
+</div>
+
+<style>
+  .values-btn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 12px;
+
+    border: 1px solid #5a5a5a;
+    border-radius: 9px;
+
+    background: #2f2f2f;
+    color: #d8d8d8;
+
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .values-btn .line {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .values-btn .line-1 {
+    font-size: 12px;
+    letter-spacing: 0.085em;
+  }
+
+  .values-btn .line-2 {
+    margin-top: 5px;
+    font-size: 12px;
+    letter-spacing: 0.07em;
+  }
+
+  .values-btn:active {
+    transform: scale(0.98);
+    background: #292929;
+  }
+
+  .values-panel {
+    display: none;
+
+    max-width: 420px;
+    margin-top: 12px;
+    padding: 16px;
+
+    border: 1px solid #5a5a5a;
+    border-radius: 9px;
+
+    background: #2f2f2f;
+    color: #d8d8d8;
+
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .values-panel.open {
+    display: block;
+  }
+
+  .values-panel p {
+    margin: 0 0 14px;
+  }
+
+  .values-panel p:last-child {
+    margin-bottom: 0;
+  }
+</style>
+
+<script>
+  function toggleValues() {
+    document.getElementById("valuesPanel").classList.toggle("open");
+  }
+</script>
