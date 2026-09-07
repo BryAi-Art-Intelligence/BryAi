@@ -1,0 +1,183 @@
+<button class="data-policy-btn" onclick="togglePolicy()" type="button">
+  <span class="line line-1">BryAi<span class="round-dot"></span>website</span>
+  <span class="line line-2">Policy on Data</span>
+</button>
+
+<div class="policy-panel" id="policyPanel">
+
+  <p>
+    <strong>BryAi.website Policy on Data</strong> is a written statement on the
+    actions and treatment of data that is, and is not, required from you.
+  </p>
+
+  <p>
+    BryAi.website shall not intentionally collect or retain data beyond what is
+    technically essential for providing and securing an internet connection to
+    the website.
+  </p>
+
+  <p>
+    You are not required to share any personal details that make you feel
+    uncomfortable.
+  </p>
+
+  <p>
+    BryAi will not screenshot or screen-record communications that you send to
+    BryAi. If you choose to screenshot or screen-record those communications,
+    the handling and protection of those copies and the information they contain
+    are your responsibility.
+  </p>
+
+  <p>
+    BryAi shall provide a truthful account of the technology used to operate
+    BryAi.website.
+  </p>
+
+  <p>
+    BryAi shall not discuss, disclose, or share information provided by you
+    with any other person.
+  </p>
+
+  <p>
+    BryAi shall keep read receipts enabled for communications where the feature
+    is available. You are not required to enable read receipts on your
+    communications.
+  </p>
+
+  <p>
+    BryAi shall not reuse something made specifically for you for another
+    person, nor provide you with something that was previously made specifically
+    for someone else.
+  </p>
+
+  <p>
+    BryAi shall not deny, dismiss, or judge an idea you present based solely on
+    BryAi's personal opinion.
+  </p>
+
+  <p>
+    BryAi shall not create art that is prohibited by any laws that may apply.
+  </p>
+
+  <p>
+    BryAi shall never initiate contact with you without your prior approval.
+  </p>
+
+  <p>
+    BryAi shall not make assumptions or ask questions that are not essential
+    to making progress on your request.
+  </p>
+
+  <p>
+    BryAi shall exercise reasonable discretion when determining whether a
+    request can be fulfilled.
+  </p>
+
+  <p>
+    BryAi retains discretion to accept or refuse a request, provided that such
+    discretion is exercised consistently with this policy.
+  </p>
+
+  <p>
+    BryAi reserves the right to determine what BryAi reasonably considers
+    appropriate under the circumstances.
+  </p>
+
+  <p>
+    If BryAi refuses a request, a reason for the refusal shall be provided upon
+    request.
+  </p>
+
+</div>
+
+<style>
+  .data-policy-btn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 12px;
+
+    border: 1px solid #5a5a5a;
+    border-radius: 9px;
+
+    background: #2f2f2f;
+    color: #d8d8d8;
+
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .data-policy-btn .line {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .data-policy-btn .line-1 {
+    font-size: 12px;
+    letter-spacing: 0.115em;
+  }
+
+  .data-policy-btn .line-2 {
+    margin-top: 5px;
+    font-size: 12px;
+    letter-spacing: 0.075em;
+  }
+
+  .round-dot {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    margin: 0 2px 0 1px;
+
+    background: currentColor;
+    border-radius: 50%;
+    transform: translateY(2px);
+  }
+
+  .data-policy-btn:active {
+    transform: scale(0.98);
+    background: #292929;
+  }
+
+  .policy-panel {
+    display: none;
+
+    max-width: 420px;
+    margin-top: 12px;
+    padding: 16px;
+
+    border: 1px solid #5a5a5a;
+    border-radius: 9px;
+
+    background: #2f2f2f;
+    color: #d8d8d8;
+
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .policy-panel.open {
+    display: block;
+  }
+
+  .policy-panel p {
+    margin: 0 0 14px;
+  }
+
+  .policy-panel p:last-child {
+    margin-bottom: 0;
+  }
+</style>
+
+<script>
+  function togglePolicy() {
+    document.getElementById("policyPanel").classList.toggle("open");
+  }
+</script>
